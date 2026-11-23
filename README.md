@@ -1,26 +1,28 @@
 # L293D H-Bridge Motor Driver
 
-This repository contains a simulation of a DC motor driver circuit built in Tinkercad using the L293D integrated circuit.
-
-## 🛠️ Components Used
-- L293D Motor Driver IC
-- Arduino Uno (for logic signals)
-- DC Motor
-- Push buttons / Switches
-- 10kΩ Resistors (Pull-down)
+Simulation of a DC motor control using the L293D integrated circuit and Arduino UNO.
 
 ## ⚙️ Features
-- **Direction Control:** Uses inputs `1A` and `2A` to change the polarity and direction of the motor.
-- **Speed Control:** Uses PWM (Pulse Width Modulation) on the `1,2EN` pin to regulate motor speed.
-- **Active Braking:** Implemented logic to stop the motor by shorting both terminals (1A and 2A set to HIGH or LOW simultaneously).
+- **Direction Control:** Logic signals (`HIGH`/`LOW`) on pins `1A` and `2A` change the motor's rotation direction.
+- **Speed Control:** PWM (Pulse Width Modulation) on the `1,2EN` (Enable) pin regulates the motor speed.
+- **Active Braking:** Setting both `1A` and `2A` to `HIGH` or `LOW` stops the motor instantly.
 
 ## 🔌 Pinout Connections
-- **Arduino Pin 2** -> L293D `1A` (Direction)
-- **Arduino Pin 3** -> L293D `2A` (Direction)
-- **Arduino Pin 9** -> L293D `1,2EN` (Speed/PWM)
-- **L293D `1Y` and `2Y`** -> DC Motor Terminals
-- **VCC1** -> 5V (Logic)
-- **VCC2** -> External Power (Motor)
+- **Arduino D5** -> L293D `1A` (Direction)
+- **Arduino D6** -> L293D `2A` (Direction)
+- **Arduino D9 (PWM)** -> L293D `1,2EN` (Speed)
+- **L293D `1Y` and `2Y`** -> DC Motor terminals
+- **VCC1 (Pin 16)** -> 5V (Logic power from Arduino)
+- **VCC2 (Pin 8)** -> External Power Supply (Motor power)
+- **GND** -> Common Ground for Arduino, L293D, and PSU.
 
 ## 📸 Simulation
-*(Screenshots of the Tinkercad circuit will be added here)*
+![Circuit Simulation](circuit.png)
+
+## 💻 Arduino Code
+The complete control logic is written in C++ and can be found in the `motor_control.ino` file. 
+
+### Logic overview:
+1. **Forward:** `1A` = HIGH, `2A` = LOW. PWM set to 200 (~80% speed).
+2. **Stop:** `1A` = LOW, `2A` = LOW, PWM = 0.
+3. **Backward:** `1A` = LOW, `2A` = HIGH. PWM set to 127 (~50% speed).
